@@ -1,0 +1,20 @@
+//
+// Created by papai on 2026. 05. 15..
+//
+
+#include "piece.hpp"
+
+using namespace genv;
+
+Piece::Piece(MyApp *parent, const int x, const int y, const int sx, const int sy, const bool white) :
+                Widget(parent, x, y, sx, sy), white(white){
+}
+
+Piece::~Piece() {}
+
+void Piece::draw() const {}
+
+void Piece::handle(event ev) {}
+
+
+
