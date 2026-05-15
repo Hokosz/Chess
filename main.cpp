@@ -2,7 +2,7 @@
 #include "button.hpp"
 #include <string>
 
-// GIHUB TESZTELÉS
+// GITHUB TESZT
 
 
 using namespace std;
