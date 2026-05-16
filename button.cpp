@@ -13,7 +13,7 @@ Button::Button(MyApp *parent, const int _x, const int _y, const int _sx, const i
 }
 
 void Button::draw() const {
-    gout.load_font("digital-7.ttf", 25);
+    gout.load_font("OpenChessFont.ttf", 50);
 
     if (white) gout << color(200, 200, 200);
     else gout << color(40, 40, 40);
@@ -21,7 +21,7 @@ void Button::draw() const {
     gout << move_to(x, y)
          << box(sx, sy);
 
-    gout << move_to(x + 4, y + sy/2 + 5)
+    gout << move_to(x, y)
          << color(0, 0, 0)
          << text(label);
 }

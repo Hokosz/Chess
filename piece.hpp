@@ -10,8 +10,9 @@
 class Piece: public Widget{
     protected:
         bool white;
+        char type;
     public:
-    Piece(MyApp*, int, int, int, int, bool);
+    Piece(MyApp*, int, int, int, int, bool, char);
     ~Piece() override;
     void draw() const override;
     void handle(genv::event ev) override;

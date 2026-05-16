@@ -6,8 +6,8 @@
 
 using namespace genv;
 
-Piece::Piece(MyApp *parent, const int x, const int y, const int sx, const int sy, const bool white) :
-                Widget(parent, x, y, sx, sy), white(white){
+Piece::Piece(MyApp *parent, const int x, const int y, const int sx, const int sy, const bool white, const char type) :
+                Widget(parent, x, y, sx, sy), white(white), type(type){
 }
 
 Piece::~Piece() {}
