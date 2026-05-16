@@ -6,7 +6,9 @@
 #define CLIONGRAPHICSKIT_PIECE_HPP
 #include "widgets.hpp"
 
-// még lesz leszármazott, ráadásul 6
+// szín, típus
+
+
 class Piece: public Widget{
     protected:
         bool white;
@@ -14,7 +16,7 @@ class Piece: public Widget{
     public:
     Piece(MyApp*, int, int, int, int, bool, char);
     ~Piece() override;
-    void draw() const override;
+    void move(int, int);
     void handle(genv::event ev) override;
 
 };

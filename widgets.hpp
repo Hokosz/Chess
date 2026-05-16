@@ -4,6 +4,8 @@
 #include "graphics.hpp"
 #include "myapp.hpp"
 
+//GUI elements, parent of all
+
 class Widget {
 protected:
     MyApp * parent;

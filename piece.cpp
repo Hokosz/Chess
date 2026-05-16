@@ -12,7 +12,10 @@ Piece::Piece(MyApp *parent, const int x, const int y, const int sx, const int sy
 
 Piece::~Piece() {}
 
-void Piece::draw() const {}
+void Piece::move(int x, int y) {
+
+}
+
 
 void Piece::handle(event ev) {}
 

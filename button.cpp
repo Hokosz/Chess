@@ -7,13 +7,13 @@
 
 using namespace genv;
 
-Button::Button(MyApp *parent, const int _x, const int _y, const int _sx, const int _sy, const std::string& _label, const bool white, std::function<void()> on_click)
-    : Widget(parent, _x, _y, _sx, _sy), label(_label), white(white) ,on_click(on_click)
+Button::Button(MyApp *parent, const int _x, const int _y, const int _sx, const int _sy, const std::string& _label, std::function<void()> on_click)
+    : Widget(parent, _x, _y, _sx, _sy), label(_label), on_click(on_click)
 {
 }
 
 void Button::draw() const {
-    gout.load_font("OpenChessFont.ttf", 50);
+    gout.load_font("liberationSans-Regular.ttf", 20);
 
     if (white) gout << color(200, 200, 200);
     else gout << color(40, 40, 40);

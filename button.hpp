@@ -16,7 +16,7 @@ protected:
     bool white;
 
 public:
-    Button(MyApp *parent, int _x, int _y, int _sx, int _sy, const std::string& _label, bool white, std::function<void()> on_click);
+    Button(MyApp *parent, int _x, int _y, int _sx, int _sy, const std::string& _label, std::function<void()> on_click);
 
     void draw() const override;
 

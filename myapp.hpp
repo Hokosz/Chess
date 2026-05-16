@@ -6,6 +6,8 @@
 #define CLIONGRAPHICSKIT_MYAPP_HPP
 #include <vector>
 
+//event_loop, ablak
+
 class Widget;
 
 class MyApp {
