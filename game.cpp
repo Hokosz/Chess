@@ -102,9 +102,72 @@ bool Game::islegal(const int fromcol, const int fromrow, const int tocol, const 
                        return false;
                 }
             }
+            if (dr != 0) {
+                for (int i = 1; i < abs(dr); i ++) {
+
+                    if (((!board.getPiece(fromcol, fromrow+i).isEmpty()) && (dr > 0))||
+                    ((!board.getPiece(fromcol, fromrow-i).isEmpty()) && (dr < 0)))
+                        return false;
+                }
+            }
 
             return true;
+        case PieceType::BISHOP:
+            if (abs(dc) != abs(dr)) {
+                return false;
+            }
+
+            for (int i = 1; i < abs(dr); i++) {
+                if (
+                ((!board.getPiece(fromcol + i, fromrow + i).isEmpty()) && (dc > 0 && dr > 0))||
+                ((!board.getPiece(fromcol + i, fromrow - i).isEmpty()) && (dc > 0 && dr < 0))||
+                ((!board.getPiece(fromcol - i, fromrow + i).isEmpty()) && (dc < 0 && dr > 0))||
+                ((!board.getPiece(fromcol - i, fromrow - i).isEmpty()) && (dc < 0 && dr < 0))
+                    )return false;
+            }
+            return true;
+        case PieceType::QUEEN:
+            if ((abs(dc) != abs(dr)) && dc != 0 && dr != 0) return false;
+
+            if (abs(dc) == abs(dr)) {
+                for (int i = 1; i < abs(dr); i++) {
+                    if (
+                    ((!board.getPiece(fromcol + i, fromrow + i).isEmpty()) && (dc > 0 && dr > 0))||
+                    ((!board.getPiece(fromcol + i, fromrow - i).isEmpty()) && (dc > 0 && dr < 0))||
+                    ((!board.getPiece(fromcol - i, fromrow + i).isEmpty()) && (dc < 0 && dr > 0))||
+                    ((!board.getPiece(fromcol - i, fromrow - i).isEmpty()) && (dc < 0 && dr < 0))
+                        )return false;
+                }
+            }
+
+            if (dc == 0 || dr == 0) {
+                if (dc != 0) {
+                    for (int i = 1; i < abs(dc); i ++) {
+
+                        if (((!board.getPiece(fromcol + i, fromrow).isEmpty()) && (dc > 0))||
+                        ((!board.getPiece(fromcol - i, fromrow).isEmpty()) && (dc < 0)))
+                            return false;
+                    }
+                }
+                if (dr != 0) {
+                    for (int i = 1; i < abs(dr); i ++) {
+
+                        if (((!board.getPiece(fromcol, fromrow+i).isEmpty()) && (dr > 0))||
+                        ((!board.getPiece(fromcol, fromrow-i).isEmpty()) && (dr < 0)))
+                            return false;
+                    }
+                }
+            }
+            return true;
+        case PieceType::KING:
+            if (abs(dc) <= 1 or abs(dr) <= 1) {
+                return true;
+            }
+            return false;
+
     }
+
+
 
     return true;
 }
