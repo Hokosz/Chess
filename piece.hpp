@@ -4,19 +4,30 @@
 
 #ifndef CLIONGRAPHICSKIT_PIECE_HPP
 #define CLIONGRAPHICSKIT_PIECE_HPP
-#include "widgets.hpp"
 
 // szín, típus
 
+enum class  PieceType {
+    EMPTY,
+    PAWN,
+    KNIGHT,
+    BISHOP,
+    ROOK,
+    QUEEN,
+    KING,
+};
 
-class Piece{
-    protected:
-        bool white;
-        char type;
-    public:
-    Piece(bool, char);
-    ~Piece();
+enum class  PieceColor {
+    NONE,
+    WHITE,
+    BLACK,
+};
 
+struct Piece {
+    PieceType type = PieceType::EMPTY;
+    PieceColor color = PieceColor::NONE;
+
+    bool isEmpty() const;
 };
 
 

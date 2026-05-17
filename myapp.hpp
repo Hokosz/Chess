@@ -6,6 +6,8 @@
 #define CLIONGRAPHICSKIT_MYAPP_HPP
 #include <vector>
 
+#include "game.hpp"
+
 //event_loop, ablak
 
 class Widget;
@@ -13,6 +15,8 @@ class Widget;
 class MyApp {
 protected:
     std::vector<Widget*> ws;
+
+    Game game;
 
     int width, height;
 

@@ -23,7 +23,6 @@ add_executable(CLionGraphicsKit main.cpp
         dropdown.cpp
         screen.cpp
         screen.hpp
-        piece.cpp
         piece.hpp
         game.cpp
         game.hpp
@@ -31,5 +30,6 @@ add_executable(CLionGraphicsKit main.cpp
         boardwgt.hpp
         board.cpp
         board.hpp
+        piece.cpp
 )
 target_link_libraries(CLionGraphicsKit graphics)

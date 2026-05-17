@@ -1,6 +1,7 @@
 #include "myapp.hpp"
 #include "button.hpp"
 #include "boardwgt.hpp"
+#include "game.hpp"
 
 using namespace std;
 
@@ -13,13 +14,14 @@ protected:
     Boardwgt *boardwgt;
 public:
     App(int const width, int const height) : MyApp(width, height){
-        boardwgt = new Boardwgt(this, 0, 0, 400, 400);
+        boardwgt = new Boardwgt(this, game, 0, 0, 400, 400);
     }
 };
 
 int main()
 {
     const App app(600, 800);
+
 
     app.event_loop();
 

@@ -6,7 +6,18 @@
 #define CLIONGRAPHICSKIT_BOARD_HPP
 
 
-class board {
+#include "piece.hpp"
+
+class Board {
+protected:
+    Piece squares[8][8];
+public:
+    Board();
+    void reset();
+
+    Piece getPiece(int row, int col) const;
+    void setPiece(int row, int col, Piece piece);
+
 };
 
 

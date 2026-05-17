@@ -8,15 +8,18 @@
 // grafikai megjelenítés
 
 #include "widgets.hpp"
+#include "game.hpp"
 
 class Boardwgt : public Widget{
 protected:
+    Game& game;
     int selectedx, selectedy;
     int tilesize;
 public:
-    Boardwgt(MyApp *, int, int, int, int);
+    Boardwgt(MyApp *, Game&, int, int, int, int);
     void draw() const override;
     void handle(genv::event ev) override;
+
 
 };
 

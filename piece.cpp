@@ -1,15 +1,9 @@
 //
-// Created by papai on 2026. 05. 15..
+// Created by papai on 2026. 05. 17..
 //
 
-#include "piece.hpp"
+#include "piece.hpp";
 
-using namespace genv;
-
-Piece::Piece(const bool white, const char type) :
-                 white(white), type(type){
+bool Piece::isEmpty() const {
+    return type == PieceType::EMPTY;
 }
-
-Piece::~Piece() {}
-
-
