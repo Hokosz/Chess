@@ -27,5 +27,9 @@ add_executable(CLionGraphicsKit main.cpp
         piece.hpp
         game.cpp
         game.hpp
+        boardwgt.cpp
+        boardwgt.hpp
+        board.cpp
+        board.hpp
 )
 target_link_libraries(CLionGraphicsKit graphics)

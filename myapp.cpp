@@ -26,7 +26,18 @@ void MyApp::register_ws(Widget *w) {
 void MyApp::event_loop() const {
     event ev;
     int focus = -1;
-    while (gin >> ev) {
+
+    gout << move_to(0, 0)
+     << color(0, 0, 0)
+     << box(width, height);
+
+    for (const Widget* w : ws) {
+        w->draw();
+    }
+
+    gout << refresh;
+
+    while (gin >> ev ) {
 
         if (ev.type == ev_mouse && ev.button == btn_left) {
             for (size_t i = 0; i < ws.size(); i++) {
@@ -44,7 +55,7 @@ void MyApp::event_loop() const {
              << color(0, 0, 0)
              << box(width, height);
 
-        for (Widget* w : ws) {
+        for (const Widget* w : ws) {
             w->draw();
         }
 

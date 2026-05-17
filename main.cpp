@@ -1,6 +1,6 @@
 #include "myapp.hpp"
 #include "button.hpp"
-#include <string>
+#include "boardwgt.hpp"
 
 using namespace std;
 
@@ -10,10 +10,10 @@ using namespace std;
 
 class App final : public MyApp {
 protected:
-
+    Boardwgt *boardwgt;
 public:
     App(int const width, int const height) : MyApp(width, height){
-
+        boardwgt = new Boardwgt(this, 0, 0, 400, 400);
     }
 };
 

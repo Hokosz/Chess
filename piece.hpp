@@ -9,15 +9,13 @@
 // szín, típus
 
 
-class Piece: public Widget{
+class Piece{
     protected:
         bool white;
         char type;
     public:
-    Piece(MyApp*, int, int, int, int, bool, char);
-    ~Piece() override;
-    void move(int, int);
-    void handle(genv::event ev) override;
+    Piece(bool, char);
+    ~Piece();
 
 };
 
