@@ -19,12 +19,13 @@ protected:
 public:
     Game();
 
-    const Board& getBoard() const;
+    const Board& getboard() const;
 
-    bool isWhiteMove() const;
+    bool iswhiteMove() const;
 
     void reset();
-    bool tryMove(int fromrow, int fromcol, int torow, int tocol);
+    bool trymove(int fromcol, int fromrow, int tocol, int torow);
+    bool islegal(int fromcol, int fromrow, int tocol, int torow, Piece p, Piece q) const;
 
 };
 

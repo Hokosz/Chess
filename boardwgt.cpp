@@ -3,6 +3,9 @@
 //
 
 #include "boardwgt.hpp"
+
+#include <iostream>
+
 #include "graphics.hpp"
 
 using namespace genv;
@@ -22,13 +25,22 @@ void Boardwgt::draw() const {
     char colums[8] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
     for (int i = 0; i < 64; i++) {
         //kockák
-        gout << move_to(x + (i % 8)* tilesize, y + (i / 8) * tilesize);
+        const int col = (i % 8);
+        const int row = (i / 8);
+        gout << move_to(x + col * tilesize, y + row * tilesize);
 
-        if ((i + (i / 8)) % 2 == 0) {
-            gout << color(215, 215, 215);
-        }
-        else {
-            gout << color(117, 95, 75);
+        if ((i + row) % 2 == 0) {
+            if (selectedx == col && selectedy == (7 - row)) {
+                gout << color(215, 215, 255);
+            } else {
+                gout << color(215, 215, 215);
+            }
+        } else {
+            if (selectedx == col && selectedy == (7 - row)) {
+                gout << color(117, 95, 120);
+            } else {
+                gout << color(117, 95, 75);
+            }
         }
         gout << box(tilesize, tilesize);
 
@@ -53,10 +65,12 @@ void Boardwgt::draw() const {
     }
 
     // bábuk
-    const Board& b = game.getBoard();
+    const Board& b = game.getboard();
     for (int i = 0; i < 64; i++) {
-        if (Piece p = b.getPiece((i % 8),7 - (i / 8)); !p.isEmpty()) {
-            gout << move_to(x + ((i) % 8)* tilesize, y + (i / 8) * tilesize);
+        const int col = (i % 8);
+        const int row = (i / 8);
+        if (Piece p = b.getPiece(col,7 - row); !p.isEmpty()) {
+            gout << move_to(x + col * tilesize, y + row * tilesize);
             gout << color(0,0,0);
             gout.load_font("OpenChessFont.ttf", 50);
 
@@ -111,5 +125,23 @@ void Boardwgt::draw() const {
 }
 
 
-void Boardwgt::handle(event ev) {
+void Boardwgt::handle(const event ev) {
+    if (ev.type == ev_mouse &&
+        ev.button == btn_left &&
+        is_selected(ev.pos_x, ev.pos_y)) {
+
+        const int col = (ev.pos_x - x) / tilesize;
+        const int row = 7 - (ev.pos_y - y) / tilesize;
+
+        if (selectedx == -1) {
+            selectedx = col;
+            selectedy = row;
+        }
+        else {
+            game.trymove(selectedx, selectedy, col, row);
+
+            selectedx = selectedy =-1;
+        }
+        std::cout << selectedx << " " << selectedy << std::endl;
+    }
 }

@@ -36,9 +36,9 @@ void Board::reset() {
     }
 }
 
-void Board::setPiece(const int row, const int col, Piece piece) {
-    squares[row][col] = {piece};
+void Board::setPiece(const int col, const int row, Piece piece) {
+    squares[col][row] = {piece};
 }
-Piece Board::getPiece(const int row, const int col) const {
-    return squares[row][col];
+Piece Board::getPiece(const int col, const int row) const {
+    return squares[col][row];
 }

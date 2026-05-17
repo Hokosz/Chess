@@ -15,8 +15,7 @@ Button::Button(MyApp *parent, const int _x, const int _y, const int _sx, const i
 void Button::draw() const {
     gout.load_font("liberationSans-Regular.ttf", 20);
 
-    if (white) gout << color(200, 200, 200);
-    else gout << color(40, 40, 40);
+    gout << color(200, 200, 200);
 
     gout << move_to(x, y)
          << box(sx, sy);

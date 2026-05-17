@@ -10,7 +10,7 @@
 #include "widgets.hpp"
 #include "game.hpp"
 
-class Boardwgt : public Widget{
+class Boardwgt final : public Widget{
 protected:
     Game& game;
     int selectedx, selectedy;

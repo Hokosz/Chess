@@ -15,8 +15,8 @@ public:
     Board();
     void reset();
 
-    Piece getPiece(int row, int col) const;
-    void setPiece(int row, int col, Piece piece);
+    Piece getPiece(int col, int row) const;
+    void setPiece(int col, int row, Piece piece);
 
 };
 
