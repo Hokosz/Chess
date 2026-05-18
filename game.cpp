@@ -43,13 +43,12 @@ bool Game::trymove(int fromcol, int fromrow, int tocol, int torow)
 
     if (p.type == PieceType::KING) {
         if (p.color == PieceColor::WHITE) { wkingcol = tocol; wkingrow = torow; }
-        else                              { bkingcol = tocol; bkingrow = torow; }
+        else { bkingcol = tocol; bkingrow = torow; }
     }
 
     bool illegal = incheck();
 
     if (illegal) {
-        // Undo move
         board.setPiece(fromcol, fromrow, oldFrom);
         board.setPiece(tocol,   torow,   oldTo);
         wkingcol = oldWkc; wkingrow = oldWkr;
@@ -80,63 +79,56 @@ bool Game::islegal(const int fromcol, const int fromrow,
 
     switch (p.type) {
 
-        case PieceType::PAWN:
-            if (p.color == PieceColor::WHITE) {
+        case PieceType::PAWN: {
+            bool ok = false;
 
-                if (dc == 0 && dr == 1 && q.isEmpty()) {
-                    return true;
-                }
-                if (abs(dc) == 1 && dr == 1 && !q.isEmpty()) {
-                    return true;
-                }
-                if (dc == 0 && fromrow == 1 && dr == 2 && q.isEmpty()) {
-                    return true;
-                }
-                // en passant később
+            if (p.color == PieceColor::WHITE) {
+                if (dc == 0 && dr == 1 && q.isEmpty()) ok = true;
+                if (!ok && abs(dc) == 1 && dr == 1 && !q.isEmpty()) ok = true;
+                if (!ok && dc == 0 && fromrow == 1 && dr == 2 && q.isEmpty()) ok = true;
+                return ok;
             }
 
             if (p.color == PieceColor::BLACK) {
-                if (dc == 0 && dr == -1 && q.isEmpty()) {
-                    return true;
-                }
-                if (abs(dc) == 1 && dr == -1 && !q.isEmpty()) {
-                    return true;
-                }
-                if (dc == 0 && fromrow == 6 && dr == -2 && q.isEmpty()) {
-                    return true;
-                }
+                if (dc == 0 && dr == -1 && q.isEmpty()) ok = true;
+                if (!ok && abs(dc) == 1 && dr == -1 && !q.isEmpty()) ok = true;
+                if (!ok && dc == 0 && fromrow == 6 && dr == -2 && q.isEmpty()) ok = true;
+                return ok;
             }
-            return false;
 
- case PieceType::KNIGHT:
+            return false;
+        }
+
+        case PieceType::KNIGHT:
             if ((abs(dc) == 2 && abs(dr) == 1) ||
                 (abs(dc) == 1 && abs(dr) == 2)) {
-
                 return true;
             }
             return false;
+
         case PieceType::ROOK:
             if (dc != 0 && dr != 0) {
                 return false;
             }
 
             if (dc != 0) {
-                for (int i = 1; i < abs(dc); i ++) {
-
-                   if (((!board.getPiece(fromcol + i, fromrow).isEmpty()) && (dc > 0))||
-                   ((!board.getPiece(fromcol - i, fromrow).isEmpty()) && (dc < 0)))
-                       return false;
-                }
-            }
-            if (dr != 0) {
-                for (int i = 1; i < abs(dr); i ++) {
-
-                    if (((!board.getPiece(fromcol, fromrow+i).isEmpty()) && (dr > 0))||
-                    ((!board.getPiece(fromcol, fromrow-i).isEmpty()) && (dr < 0)))
+                for (int i = 1; i < abs(dc); i++) {
+                    if (((!board.getPiece(fromcol + i, fromrow).isEmpty()) && (dc > 0)) ||
+                        ((!board.getPiece(fromcol - i, fromrow).isEmpty()) && (dc < 0)))
                         return false;
                 }
             }
+
+            if (dr != 0) {
+                for (int i = 1; i < abs(dr); i++) {
+                    if (((!board.getPiece(fromcol, fromrow + i).isEmpty()) && (dr > 0)) ||
+                        ((!board.getPiece(fromcol, fromrow - i).isEmpty()) && (dr < 0)))
+                        return false;
+                }
+            }
+
             return true;
+
         case PieceType::BISHOP:
             if (abs(dc) != abs(dr)) {
                 return false;
@@ -144,57 +136,62 @@ bool Game::islegal(const int fromcol, const int fromrow,
 
             for (int i = 1; i < abs(dr); i++) {
                 if (
-                ((!board.getPiece(fromcol + i, fromrow + i).isEmpty()) && (dc > 0 && dr > 0))||
-                ((!board.getPiece(fromcol + i, fromrow - i).isEmpty()) && (dc > 0 && dr < 0))||
-                ((!board.getPiece(fromcol - i, fromrow + i).isEmpty()) && (dc < 0 && dr > 0))||
-                ((!board.getPiece(fromcol - i, fromrow - i).isEmpty()) && (dc < 0 && dr < 0))
-                    )return false;
+                    ((!board.getPiece(fromcol + i, fromrow + i).isEmpty()) && (dc > 0 && dr > 0)) ||
+                    ((!board.getPiece(fromcol + i, fromrow - i).isEmpty()) && (dc > 0 && dr < 0)) ||
+                    ((!board.getPiece(fromcol - i, fromrow + i).isEmpty()) && (dc < 0 && dr > 0)) ||
+                    ((!board.getPiece(fromcol - i, fromrow - i).isEmpty()) && (dc < 0 && dr < 0))
+                ) return false;
             }
+
             return true;
+
         case PieceType::QUEEN:
-            if ((abs(dc) != abs(dr)) && dc != 0 && dr != 0) return false;
+            if ((abs(dc) != abs(dr)) && dc != 0 && dr != 0)
+                return false;
 
             if (abs(dc) == abs(dr)) {
                 for (int i = 1; i < abs(dr); i++) {
                     if (
-                    ((!board.getPiece(fromcol + i, fromrow + i).isEmpty()) && (dc > 0 && dr > 0))||
-                    ((!board.getPiece(fromcol + i, fromrow - i).isEmpty()) && (dc > 0 && dr < 0))||
-                    ((!board.getPiece(fromcol - i, fromrow + i).isEmpty()) && (dc < 0 && dr > 0))||
-                    ((!board.getPiece(fromcol - i, fromrow - i).isEmpty()) && (dc < 0 && dr < 0))
-                        )return false;
+                        ((!board.getPiece(fromcol + i, fromrow + i).isEmpty()) && (dc > 0 && dr > 0)) ||
+                        ((!board.getPiece(fromcol + i, fromrow - i).isEmpty()) && (dc > 0 && dr < 0)) ||
+                        ((!board.getPiece(fromcol - i, fromrow + i).isEmpty()) && (dc < 0 && dr > 0)) ||
+                        ((!board.getPiece(fromcol - i, fromrow - i).isEmpty()) && (dc < 0 && dr < 0))
+                    ) return false;
                 }
             }
 
             if (dc == 0 || dr == 0) {
                 if (dc != 0) {
-                    for (int i = 1; i < abs(dc); i ++) {
-
-                        if (((!board.getPiece(fromcol + i, fromrow).isEmpty()) && (dc > 0))||
-                        ((!board.getPiece(fromcol - i, fromrow).isEmpty()) && (dc < 0)))
+                    for (int i = 1; i < abs(dc); i++) {
+                        if (((!board.getPiece(fromcol + i, fromrow).isEmpty()) && (dc > 0)) ||
+                            ((!board.getPiece(fromcol - i, fromrow).isEmpty()) && (dc < 0)))
                             return false;
                     }
                 }
                 if (dr != 0) {
-                    for (int i = 1; i < abs(dr); i ++) {
-
-                        if (((!board.getPiece(fromcol, fromrow+i).isEmpty()) && (dr > 0))||
-                        ((!board.getPiece(fromcol, fromrow-i).isEmpty()) && (dr < 0)))
+                    for (int i = 1; i < abs(dr); i++) {
+                        if (((!board.getPiece(fromcol, fromrow + i).isEmpty()) && (dr > 0)) ||
+                            ((!board.getPiece(fromcol, fromrow - i).isEmpty()) && (dr < 0)))
                             return false;
                     }
                 }
             }
+
             return true;
+
         case PieceType::KING:
-            if (abs(dc) <= 1 or abs(dr) <= 1) {
-                if (p.color == PieceColor::WHITE) {wkingcol = tocol; wkingrow = torow;}
-                else {bkingcol = tocol; bkingrow = torow;}
+            if (abs(dc) <= 1 && abs(dr) <= 1) {
                 return true;
             }
             return false;
-        default:break;
+
+        default:
+            break;
     }
+
     return false;
 }
+
 
 
 bool Game::incheck(){
