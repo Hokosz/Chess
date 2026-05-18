@@ -58,6 +58,15 @@ bool Game::trymove(int fromcol, int fromrow, int tocol, int torow)
 
     gameend();
 
+    for (int i =0; i < 8; i++) {
+        if (p.color == PieceColor::WHITE && p.type == PieceType::PAWN && tocol == 7) {
+            p.type = PieceType::QUEEN;
+        }
+        if (p.color == PieceColor::BLACK && p.type == PieceType::PAWN &&tocol == 0) {
+            p.type = PieceType::QUEEN;
+        }
+    }
+
     white_move = !white_move;
     return true;
 }
@@ -273,10 +282,10 @@ bool Game::hasAnyLegalMove() {
             bkingcol = oldBkc; bkingrow = oldBkr;
 
             if (!illegal)
-                return true;   // found at least one legal move
+                return true;
         }
     }
-    return false; // no legal moves exist
+    return false;
 }
 
 bool Game::gameend() {
