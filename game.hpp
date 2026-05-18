@@ -16,6 +16,8 @@ class Game {
 protected:
     Board board;
     bool white_move = true;
+    int wkingcol = 4, wkingrow = 0;
+    int bkingcol = 7, bkingrow = 0;
 public:
     Game();
 
@@ -25,7 +27,8 @@ public:
 
     void reset();
     bool trymove(int fromcol, int fromrow, int tocol, int torow);
-    bool islegal(int fromcol, int fromrow, int tocol, int torow, Piece p, Piece q) const;
+    bool islegal(int fromcol, int fromrow, int tocol, int torow, Piece p, Piece q);
+    bool incheck(Piece k);
 
 };
 

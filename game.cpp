@@ -42,7 +42,7 @@ bool Game::trymove(const int fromcol, const int fromrow, const int tocol, const 
 }
 
 bool Game::islegal(const int fromcol, const int fromrow, const int tocol, const int torow,
-    const Piece p, const Piece q) const {
+    const Piece p, const Piece q) {
 
     if ((white_move && p.color != PieceColor::WHITE) ||
     (!white_move && p.color != PieceColor::BLACK))
@@ -86,6 +86,12 @@ bool Game::islegal(const int fromcol, const int fromrow, const int tocol, const 
         case PieceType::KNIGHT:
             if ((abs(dc) == 2 && abs(dr) == 1) ||
                 (abs(dc) == 1 && abs(dr) == 2)) {
+                if ((p.color == PieceColor::WHITE && incheck(board.getPiece(wkingcol, wkingrow)))
+                    || (p.color == PieceColor::BLACK && incheck(board.getPiece(bkingcol, bkingrow)))) {
+                        return false;
+                }
+
+                //TODO: inchek vizsgálat
                 return true;
             }
             return false;
@@ -110,7 +116,7 @@ bool Game::islegal(const int fromcol, const int fromrow, const int tocol, const 
                         return false;
                 }
             }
-
+            //TODO: inchek vizsgálat
             return true;
         case PieceType::BISHOP:
             if (abs(dc) != abs(dr)) {
@@ -125,6 +131,7 @@ bool Game::islegal(const int fromcol, const int fromrow, const int tocol, const 
                 ((!board.getPiece(fromcol - i, fromrow - i).isEmpty()) && (dc < 0 && dr < 0))
                     )return false;
             }
+            //TODO: inchek vizsgálat
             return true;
         case PieceType::QUEEN:
             if ((abs(dc) != abs(dr)) && dc != 0 && dr != 0) return false;
@@ -158,16 +165,34 @@ bool Game::islegal(const int fromcol, const int fromrow, const int tocol, const 
                     }
                 }
             }
+            //TODO: inchek vizsgálat
             return true;
         case PieceType::KING:
             if (abs(dc) <= 1 or abs(dr) <= 1) {
+                if (p.color == PieceColor::WHITE) {wkingcol = tocol; wkingrow = torow;}
+                else {bkingcol = tocol; bkingrow = torow;}
+                //TODO: inchek vizsgálat
                 return true;
             }
             return false;
-
+        default:break;
     }
 
-
-
+    //TODO: inchek vizsgálat
     return true;
+}
+
+bool Game::incheck(Piece k){
+
+    for (int i = 0; i < 64; i ++) {
+        const int col = (i % 8);
+        const int row = (i / 8);
+
+        if ((islegal(col, row, wkingcol, wkingrow,board.getPiece(col, row), k)
+                    && (k.color == PieceColor::WHITE)) ||
+                (islegal(col, row, bkingcol, bkingrow,board.getPiece(col, row), k)
+                && (k.color == PieceColor::BLACK))) {
+            return true;
+        }}
+    return false;
 }
