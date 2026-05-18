@@ -30,6 +30,10 @@ public:
     bool islegal(int fromcol, int fromrow, int tocol, int torow, Piece p, Piece q, bool checkTurn);
     bool incheck();
 
+    bool hasAnyLegalMove();
+    bool gameend();   // returns true if checkmate or stalemate
+
+
 };
 
 

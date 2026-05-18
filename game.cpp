@@ -56,6 +56,8 @@ bool Game::trymove(int fromcol, int fromrow, int tocol, int torow)
         return false;
     }
 
+    gameend();
+
     white_move = !white_move;
     return true;
 }
@@ -229,3 +231,71 @@ bool Game::incheck(){
     }
     return false;
 }
+
+bool Game::hasAnyLegalMove() {
+    for (int i = 0; i < 64; i++) {
+        int fromcol = i % 8;
+        int fromrow = i / 8;
+
+        Piece p = board.getPiece(fromcol, fromrow);
+        if (p.isEmpty()) continue;
+
+        if (white_move && p.color != PieceColor::WHITE) continue;
+        if (!white_move && p.color != PieceColor::BLACK) continue;
+
+        for (int j = 0; j < 64; j++) {
+            int tocol = j % 8;
+            int torow = j / 8;
+
+            Piece q = board.getPiece(tocol, torow);
+
+            if (!islegal(fromcol, fromrow, tocol, torow, p, q, true))
+                continue;
+
+            Piece oldFrom = p;
+            Piece oldTo   = q;
+            int oldWkc = wkingcol, oldWkr = wkingrow;
+            int oldBkc = bkingcol, oldBkr = bkingrow;
+
+            board.setPiece(tocol, torow, p);
+            board.setPiece(fromcol, fromrow, Piece());
+
+            if (p.type == PieceType::KING) {
+                if (p.color == PieceColor::WHITE) { wkingcol = tocol; wkingrow = torow; }
+                else { bkingcol = tocol; bkingrow = torow; }
+            }
+
+            bool illegal = incheck();
+
+            board.setPiece(fromcol, fromrow, oldFrom);
+            board.setPiece(tocol,   torow,   oldTo);
+            wkingcol = oldWkc; wkingrow = oldWkr;
+            bkingcol = oldBkc; bkingrow = oldBkr;
+
+            if (!illegal)
+                return true;   // found at least one legal move
+        }
+    }
+    return false; // no legal moves exist
+}
+
+bool Game::gameend() {
+    std::cout << "checkforgameend" << std::endl;
+    bool check = incheck();
+    bool moves = hasAnyLegalMove();
+
+    if (check && !moves) {
+        std::cout << "Checkmate! ";
+        if (white_move) std::cout << "Black wins.\n";
+        else std::cout << "White wins.\n";
+        return true;
+    }
+
+    if (!check && !moves) {
+        std::cout << "Stalemate.\n";
+        return true;
+    }
+
+    return false;
+}
+
