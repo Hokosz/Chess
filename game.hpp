@@ -27,8 +27,8 @@ public:
 
     void reset();
     bool trymove(int fromcol, int fromrow, int tocol, int torow);
-    bool islegal(int fromcol, int fromrow, int tocol, int torow, Piece p, Piece q);
-    bool incheck(Piece k);
+    bool islegal(int fromcol, int fromrow, int tocol, int torow, Piece p, Piece q, bool checkTurn);
+    bool incheck();
 
 };
 
