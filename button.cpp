@@ -13,7 +13,7 @@ Button::Button(MyApp *parent, const int _x, const int _y, const int _sx, const i
 }
 
 void Button::draw() const {
-    gout.load_font("liberationSans-Regular.ttf", 20);
+    gout.load_font("../liberationSans-Regular.ttf", 20);
 
     gout << color(200, 200, 200);
 

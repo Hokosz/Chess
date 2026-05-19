@@ -20,7 +20,7 @@ Boardwgt::Boardwgt(MyApp *parent, Game& g, const int x, const int y, const int s
 
 
 void Boardwgt::draw() const {
-    gout.load_font("LiberationSans-Regular.ttf", 10);
+    gout.load_font("../LiberationSans-Regular.ttf", 10);
     //tábla
     char colums[8] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
     for (int i = 0; i < 64; i++) {
@@ -72,7 +72,7 @@ void Boardwgt::draw() const {
         if (Piece p = b.getPiece(col,7 - row); !p.isEmpty()) {
             gout << move_to(x + col * tilesize, y + row * tilesize);
             gout << color(0,0,0);
-            gout.load_font("OpenChessFont.ttf", 50);
+            gout.load_font("../OpenChessFont.ttf", 50);
 
             if (p.color == PieceColor::WHITE) {
                 switch (p.type) {

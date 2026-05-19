@@ -11,7 +11,7 @@ Screen::Screen(MyApp *parent, const int x, const int y, const int sx, const int 
                 Widget(parent, x, y, sx, sy), value(_value) {
 }
 void Screen::draw() const{
-    gout.load_font("digital-7.ttf", 50);
+    gout.load_font("../digital-7.ttf", 50);
     gout << color(255, 255, 255)
     << move_to(x, y)
     << box(sx, sy)
